@@ -1,0 +1,3 @@
+- first install xdebug by setting PHP_FPM_INSTALL_XDEBUG and WORKSPACE_INSTALL_XDEBUG to TRUE
+- search for xdebug.mode and change the mode to coverage. In Laradock I changed the value in workspace/Dockerfile and
+php-fpm/Dockerfile, rebuild the container, and it worked

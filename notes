@@ -1,0 +1,107 @@
+Mocking
+--------
+- the aim of a unit test is not to test the dependency methods of a class method. the aim is to test the functionality of
+the method itself. By using the createMock and getMockBuilder functions we can make mocks and also by using mockery. see ProductTest
+for more details.
+
+Stubs vs Mocks
+---------------
+- A stub is when you are running a test which depends on the values returned by a dummy function but where you are
+not concerned with testing whether or not the dummy function is called or not.
+- A mock method is where we are testing whether or not a method is called but we are not concerned with the value that
+it returns.
+* 'as soon as we add one of these willReturn() things, it becomes a stub'
+* 'if you want to add an assertion that a method is called a certain number of times and you want to put that assertion
+before the actual code - using shouldBeCalledTimes() or shouldBeCalled() - congratulations! Your object is now known
+as a mock.'
+* 'A spy is the exact same thing as a mock, except it's when you add the expectation after the code -
+like with shouldHaveBeenCalledTimes().'
+
+Abstract Classes/methods
+--------------------------
+- abstract methods can be tested via a child class containing the same implementation of the method.
+- when using getMockForAbstractClass, we don't mock concrete methods but we do mock abstract methods.
+- So when testing a abstract class we create a mock object using getMock for abstract class, which mocks
+or stubs the abstract methods but doesn't stub concrete methods which can be tested normally
+see AbstractPersonTest
+
+Provider methods
+-----------------
+return [
+            'Slug Has Spaces Replaced By Underscores' => ["An Example article", "An_Example_article"],
+            ["An     Example  \n  article", "An_Example_article"],
+            [" An Example article ", "An_Example_article"],
+            ["Read! This! Now!", "Read_This_Now"],
+        ];
+
+
+Mockery
+--------
+- Mockery::close() (int tearDown()) is required for mockery to work properly with phpunit unless test class extends Mockery as above.
+
+
+Testing private methods
+------------------------
+- some believe private or protected methods should not be tested. However, when a class extends another class with
+protected or private methods, the parent class is technically offering a public interface and so the methods should
+be tested.
+- private methods should be tested indirectly using the public methods which call them. if this is difficult then it
+could be a sign that your class needs to be refactored or even extended. you should interact with a class for testing
+by only using it's public methods.
+- it is possible to change the accessibility of a private method using reflection class if necessary. see ItemTest
+
+Static methods
+---------------
+- static methods can be called directly in a test
+- static methods cannot be stubbed by using native phpunit.
+- you can stub using Mockify but this is not recommended by hollingsworth
+- you should instead use the 'callables' technique. see UserTest.
+
+Exceptions
+-----------
+- it is possible to test exceptions have been called using the expectException method.
+
+
+Functions
+----------
+PHPUnit:
+- createMock() is used to create mock class objects. it calls getMockBuilder internally and uses standard best practices
+- getMockBuilder() can be used to give more granular control over how the class is mocked.
+- $this->getMockBuilder(Mailer::class)->getMock() - returns the mock object
+- setConstructorArgs() - Specifies the arguments for the constructor.
+- getMockForAbstractClass() - Creates a mock object for an abstract class using a fluent interface.
+- setUp() - where you can do things like instantiating your class that you are going to test.
+- tearDown() - destroy any objects, close mockery instance etc
+- ReflectionClass - php class for inspecting and changing class behaviour. can be used for changing accessibility of methods or properties.
+- setAccessible() - reflection class method for for changing the accessibility a method or property.
+- invokeArgs() - a reflector class method which invokes a method and passed it arguments.
+- $mock->method('someMethod) - calls a method on a mock object.
+- $mock->method('sendMessage')->willReturn(true) - willReturn(true) - instructs the mock object method what to return when it is called.
+- $gateway->expects($this->once())->method('charge')->with($this->equalTo(200))->willReturn(true); - expects a method to be called once
+with the parameter of 200 for it to return true
+- $this->expectException(QueueException::class); - set the expectation for an exception to have been called.
+- $this->expectExceptionMessage("Queue is full"); - define the exception message to be called.
+- $mock_mailer->method('sendMessage')->will($this->throwException(new \Exception)); - another way of checking for an exception having been thrown.
+
+
+Mockery functions
+------------------
+- Mockery::mock('MyObject') - instantiates a mock object.
+- $mock->shouldReceive('myMethod')->once()->with(5.97) - for checking method has been called once and with the arg 5.97
+- $gateway_spy = Mockery::spy('PaymentGateway'); - instantiating a spy mock object
+- $gateway_spy->shouldHaveReceived('charge')->once()->with(5.97); - a spy where a method should have been called once with the arg 5.97
+- $service->shouldReceive('getTemperature')->once()->with('12:00')->andReturn(20) -
+- $mock = $this->getMockForTrait(AbstractTrait::class); - for mocking a trait
+
+Assertions
+-----------
+- assertArrayHasKey($key, $array)
+- $this->assertDatabaseHas('stocks', ['quantity' => $stock->quantity - 1,]);
+
+isPreviouslyOrderedProduct - mock $this->pastOrderItemIds. pass $id to it and see it returns bool
+
+
+Eloquent Models
+----------------
+According to laravel, laravel models should not be unit tested. The functions that use them should be integration
+tested in conjunction with the models instead.

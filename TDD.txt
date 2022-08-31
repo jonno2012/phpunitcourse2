@@ -1,0 +1,5 @@
+- with TDD only test the behaviour of a class and methods, not that they exist
+- write just enough code to make the code pass before moving onto the next one.
+
+
+//

@@ -1,0 +1,19 @@
+{
+    "name": "jonathanhill/phpunitcourse",
+    "authors": [
+        {
+            "name": "Jon Hill",
+            "email": "jonathan.hill@impactreporting.co.uk"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^9.5",
+        "ext-http": "*"
+    },
+    "autoload": {
+        "psr-4": {"": "src/"}
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.5"
+    }
+}
