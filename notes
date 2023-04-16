@@ -34,6 +34,14 @@ return [
             ["Read! This! Now!", "Read_This_Now"],
         ];
 
+setUp, tearDown, setUpBeforeClass, tearDownAfterClass
+------------------------------------------------------
+- setUp is called before every test method and saves you having to write more code for each method
+- tearDown does the opposite, it is called after every test method has been called.
+- setUpBeforeClass is called once before the test class is instantiated and is generally used for things like creating
+resources or establishing db connections
+- tearDownAfterClass is called once after the class has finished running and is generally used to close or unset whatever connections,
+resources or whatever have been created in the seUpBeforeClass method.
 
 Mockery
 --------
