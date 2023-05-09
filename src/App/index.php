@@ -3,8 +3,13 @@
 require_once dirname(__FILE__, 3) . '/vendor/autoload.php';
 
  use App\CardGame;
- use App\CardIncrementor;
+ use App\EarthlyObject;
+ use App\Weight;
 
-$cardGame = new CardGame(new CardIncrementor());
-$cards = $cardGame->setCards()->getCards();
-var_dump($cards);
+//$cardGame = new CardGame();
+//$cards = $cardGame->setCards()->getCards();
+//var_dump($cards);
+
+$objectWeight = (new EarthlyObject(70, new Weight()))->setWeight();
+
+echo $objectWeight->getWeight() . PHP_EOL;

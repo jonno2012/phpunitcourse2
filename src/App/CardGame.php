@@ -14,7 +14,6 @@ class CardGame
     ]];
     const LOWEST_NUMERICAL_CARD = 2;
     const HIGHEST_NUMERICAL_CARD = 10;
-    protected CardIncrementor $cardIncrementor;
     protected array $suits;
     protected array $pictureCards;
     protected array $otherCards;
@@ -27,14 +26,12 @@ class CardGame
      * @param array|array[] $otherCards
      */
     public function __construct(
-        CardIncrementor $cardIncrementor,
         array $suits = null,
         array $pictureCards = null,
         array $otherCards = null,
         int   $highestNumericalCard = null,
     )
     {
-        $this->cardIncrementor = $cardIncrementor;
         $this->suits = $suits ?? self::SUITS;
         $this->pictureCards = $pictureCards ?? self::PICTURE_CARDS;
         $this->otherCards = $otherCards ?? self::OTHER_CARDS;
@@ -102,7 +99,7 @@ class CardGame
     {
         $cards = [];
 
-        for ($i = self::LOWEST_NUMERICAL_CARD; $i <= $this->cardIncrementor->increment($this->highestNumericalCard); $i++) {
+        for ($i = self::LOWEST_NUMERICAL_CARD; $i <= $this->highestNumericalCard; $i++) {
             $cards[] = $i . ' of ' . ucfirst($suit);
         }
 
